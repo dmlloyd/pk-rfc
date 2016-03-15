@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+]>
+
+<rfc ipr="trust200902" docName="draft-dmlloyd-sasl-public-key-01" category="std">
+    <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+
+    <?rfc toc="yes" ?>
+    <?rfc symrefs="yes" ?>
+    <?rfc sortrefs="yes"?>
+    <?rfc iprnotified="no" ?>
+    <?rfc strict="yes" ?>
+
+    <front>
+        <title>SASL Public Key Authentication (PK)</title>
+        <author initials="D.M." surname="Lloyd" fullname="David M. Lloyd">
+            <organization>Red Hat, Inc.</organization>
+            <address>
+                <postal>
+                    <street>100 East Davie Street</street>
+                    <city>Raleigh</city>
+                    <region>NC</region>
+                    <code>27601</code>
+                    <country>US</country>
+                </postal>
+                <phone>+1 919 754 4950</phone>
+                <email>david.lloyd@redhat.com</email>
+                <uri>http://redhat.com/</uri>
+            </address>
+        </author>
+
+        <date month="January" year="2016"/>
+
+        <area>Security</area>
+
+        <keyword>RFC</keyword>
+        <keyword>Request for Comments</keyword>
+        <keyword>I-D</keyword>
+        <keyword>Internet-Draft</keyword>
+        <keyword>SASL</keyword>
+        <keyword>Public Key</keyword>
+
+        <abstract>
+            <t>Thanks to the success of the Secure Shell (SSH; <eref target="rfc4251"/>), the usage of public key
+            authentication as a more secure alternative to password-based authentication is widespread on the Internet today.
+            Unfortunately, to date there is no standard way to reuse these existing types of credentials in most other protocols.</t>
+            <t>This specification describes a family of Simple Authentication and Security Layer (SASL; <eref target="rfc4422"/>)
+            authentication mechanisms which uses public/private key pairs to authenticate a user, including those
+            currently in use for the purposes of SSH authentication.</t>
+        </abstract>
+    </front>
+    <middle>
+        <section title="Introduction">
+            <t>This specification describes a family of authentication mechanisms for performing public key authentication
+            which provides a simple alternative to password-based authentication strategies.</t>
+            <t>This family of mechanisms does not include negotiation of a security layer.  It is intended for use with
+            an external security layer (optionally using channel binding [see RFC 5056]).</t>
+        </section>
+        <section title="Conventions Used in This Document">
+            <t>RFC 5234 stuff</t>
+            <section title="Terminology">
+
+            </section>
+            <section title="Notation">
+
+            </section>
+        </section>
+        <section title="PK Algorithm Overview">
+            <t>
+                The PK client is in possession of a user name and a private key. The user name is sent to the server with
+                a public key, along with a client-generated nonce. The server retrieves the user information and
+                compares the
+                public key to the server's stored key.
+            </t>
+            <t>
+                The server then sends a challenge to the client including a server
+                nonce and the server's public key. The client compares the server public key to a locally stored key for
+                that host.
+            </t>
+            <t>
+                The client then sends a message to the server consisting of a cryptographic signature produced
+                by the user's private key over the channel binding data (if any) and the first client and server
+                messages.
+            </t>
+            <t>
+                The server replies with a cryptographic signature produced by the host's private key over the same data
+                plus the client's signature message.
+            </t>
+        </section>
+        <section title="PK Mechanism Names">
+
+        </section>
+        <section title="PK Authentication Exchange">
+
+        </section>
+        <section title="Channel Binding">
+
+        </section>
+        <section title="Formal Syntax">
+
+        </section>
+        <section title="PK as a GSS-API Mechanism">
+
+        </section>
+        <section title="Security Considerations">
+
+        </section>
+        <section title="IANA Considerations">
+
+        </section>
+        <section title="Acknowledgements">
+
+        </section>
+    </middle>
+    <back>
+        <section title="Design Motivations">
+
+        </section>
+    </back>
+</rfc>

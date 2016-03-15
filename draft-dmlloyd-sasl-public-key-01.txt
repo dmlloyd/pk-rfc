@@ -1,0 +1,168 @@
+
+
+
+
+Network Working Group                                           D. Lloyd
+Internet-Draft                                             Red Hat, Inc.
+Intended status: Standards Track                            January 2016
+Expires: July 4, 2016
+
+
+                  SASL Public Key Authentication (PK)
+                    draft-dmlloyd-sasl-public-key-01
+
+Abstract
+
+   Thanks to the success of the Secure Shell (SSH; <rfc4251>), the usage
+   of public key authentication as a more secure alternative to
+   password-based authentication is widespread on the Internet today.
+   Unfortunately, to date there is no standard way to reuse these
+   existing types of credentials in most other protocols.
+
+   This specification describes a family of Simple Authentication and
+   Security Layer (SASL; <rfc4422>) authentication mechanisms which uses
+   public/private key pairs to authenticate a user, including those
+   currently in use for the purposes of SSH authentication.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on July 4, 2016.
+
+Copyright Notice
+
+   Copyright (c) 2016 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+
+
+
+Lloyd                     Expires July 4, 2016                  [Page 1]
+
+Internet-Draft     SASL Public Key Authentication (PK)      January 2016
+
+
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Conventions Used in This Document . . . . . . . . . . . . . .   2
+     2.1.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   2
+     2.2.  Notation  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   3.  PK Algorithm Overview . . . . . . . . . . . . . . . . . . . .   2
+   4.  PK Mechanism Names  . . . . . . . . . . . . . . . . . . . . .   3
+   5.  PK Authentication Exchange  . . . . . . . . . . . . . . . . .   3
+   6.  Channel Binding . . . . . . . . . . . . . . . . . . . . . . .   3
+   7.  Formal Syntax . . . . . . . . . . . . . . . . . . . . . . . .   3
+   8.  PK as a GSS-API Mechanism . . . . . . . . . . . . . . . . . .   3
+   9.  Security Considerations . . . . . . . . . . . . . . . . . . .   3
+   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .   3
+   11. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   3
+   Appendix A.  Design Motivations . . . . . . . . . . . . . . . . .   3
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   3
+
+1.  Introduction
+
+   This specification describes a family of authentication mechanisms
+   for performing public key authentication which provides a simple
+   alternative to password-based authentication strategies.
+
+   This family of mechanisms does not include negotiation of a security
+   layer.  It is intended for use with an external security layer
+   (optionally using channel binding [see RFC 5056]).
+
+2.  Conventions Used in This Document
+
+   RFC 5234 stuff
+
+2.1.  Terminology
+
+2.2.  Notation
+
+3.  PK Algorithm Overview
+
+   The PK client is in possession of a user name and a private key.  The
+   user name is sent to the server with a public key, along with a
+   client-generated nonce.  The server retrieves the user information
+   and compares the public key to the server's stored key.
+
+
+
+Lloyd                     Expires July 4, 2016                  [Page 2]
+
+Internet-Draft     SASL Public Key Authentication (PK)      January 2016
+
+
+   The server then sends a challenge to the client including a server
+   nonce and the server's public key.  The client compares the server
+   public key to a locally stored key for that host.
+
+   The client then sends a message to the server consisting of a
+   cryptographic signature produced by the user's private key over the
+   channel binding data (if any) and the first client and server
+   messages.
+
+   The server replies with a cryptographic signature produced by the
+   host's private key over the same data plus the client's signature
+   message.
+
+4.  PK Mechanism Names
+
+5.  PK Authentication Exchange
+
+6.  Channel Binding
+
+7.  Formal Syntax
+
+8.  PK as a GSS-API Mechanism
+
+9.  Security Considerations
+
+10.  IANA Considerations
+
+11.  Acknowledgements
+
+Appendix A.  Design Motivations
+
+Author's Address
+
+   David M. Lloyd
+   Red Hat, Inc.
+   100 East Davie Street
+   Raleigh, NC  27601
+   US
+
+   Phone: +1 919 754 4950
+   Email: david.lloyd@redhat.com
+   URI:   http://redhat.com/
+
+
+
+
+
+
+
+
+
+Lloyd                     Expires July 4, 2016                  [Page 3]
